@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { registerUser } from "@/services/api"
 
 export function RegisterForm() {
   const [username, setUsername] = useState("")
@@ -13,15 +14,31 @@ export function RegisterForm() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
 
-  function handleRegister(e: React.FormEvent) {
+  async function handleRegister(e: React.FormEvent) {
     e.preventDefault()
 
-    console.log({
-      username,
-      email,
-      password,
-      confirmPassword,
-    })
+    try {
+
+      const result = await registerUser({
+        username,
+        email,
+        password,
+      })
+
+      console.log(result)
+
+      alert("Conta criada com sucesso!")
+
+      setUsername("")
+      setEmail("")
+      setPassword("")
+      setConfirmPassword("")
+
+    } catch (error: any) {
+
+      alert(error.message)
+
+    }
   }
 
   return (
